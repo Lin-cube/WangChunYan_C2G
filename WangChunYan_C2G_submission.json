@@ -1,0 +1,67 @@
+{
+  "author": "WangChunYan",
+  "github_id": "WangChunYan",
+  "name": "CPU-scale verified tokenizer ablation (vocab 512 vs 2048) + 8xH100 plan",
+  "blurb": "在官方 Naive Baseline (SP-1024 9x512 KV4, 1.2244 BPB) 之上，按「数据侧 tokenizer 升级 + 容量分配」路线改进。本文件中的 val_bpb/val_loss/bytes_total 是**真实运行产出**的 CPU 规模验证值（非榜单成绩），由 WangChunYan_C2G_verify_cpu.py 忠实移植官方 BPB 口径与 int8+zlib 打包链路测得，日志见 logs/，产物见 WangChunYan_C2G_submission.tar.gz。8xH100/FineWeb 的榜单成绩仍待算力券到位后实测，见 leaderboard_target 字段。",
+  "date": "2026-12-31T23:59:00Z",
+
+  "metric_scope": "cpu_scale_verification_NOT_leaderboard",
+  "metric_scope_note": "这些数字来自 CPU 上的缩小规模真实训练（本地 2.94MB 语料、0.5-0.7M 参数、无 CUDA）。绝对数值与官方榜单（1.08-1.22）不可比；可迁移的是指标口径、打包链路与 tokenizer 效应的方向。",
+
+  "val_bpb": 2.17971810,
+  "val_loss": 4.53549832,
+  "bytes_total": 1169635,
+  "bytes_code": 38421,
+  "student_id": "2023105110151",
+
+  "cpu_verification": {
+    "script": "WangChunYan_C2G_verify_cpu.py",
+    "result_json": "artifacts/v2048_s1337_result.json",
+    "log": "logs/v2048_s1337.log",
+    "artifact_tarball": "WangChunYan_C2G_submission.tar.gz",
+    "hardware": "CPU only (torch 2.13.0+cpu, cuda_available=False)",
+    "corpus": "local repo text, 2,822,091 train bytes / 254,904 val bytes (file-split, no leakage)",
+    "model": "4L/128d/4h/2kv/mlp2, tied embedding, seq_len 128, batch 2048 tokens, 250 steps",
+    "optimizer": "Muon (matrix params) + Adam (embedding/scalar), warmup 10 + warmdown 15%",
+    "bpb_formula_check": "byte_lut_check:PASS train=2822091 val=254904 (token byte-sum equals raw UTF-8 byte count)",
+    "runs_completed": 4,
+    "split_seed_note": "seed 同时决定 train/val 文件切分，故两组为『种子+切分』联合复现（证明结论对切分稳健），非纯种子复现；已新增 --split-seed 参数支持纯种子复现。",
+    "arms": [
+      {"tag": "v512_s1337", "vocab": 512, "seed": 1337, "split_seed": 1337, "val_tokens_per_byte": 0.5265, "val_loss": 3.38164381, "val_bpb": 2.56825674, "model_params": 526608, "artifact_bytes": 1026658, "training_seconds": 747.2},
+      {"tag": "v2048_s1337", "vocab": 2048, "seed": 1337, "split_seed": 1337, "val_tokens_per_byte": 0.3332, "val_loss": 4.53549832, "val_bpb": 2.17971810, "model_params": 723216, "artifact_bytes": 1169635, "training_seconds": 740.5},
+      {"tag": "v512_s42", "vocab": 512, "seed": 42, "split_seed": 42, "val_tokens_per_byte": 0.5456, "val_loss": 4.28654135, "val_bpb": 3.37287054, "model_params": 526608, "artifact_bytes": 1028208, "training_seconds": 735.2},
+      {"tag": "v2048_s42", "vocab": 2048, "seed": 42, "split_seed": 42, "val_tokens_per_byte": 0.3368, "val_loss": 4.54129899, "val_bpb": 2.20327609, "model_params": 723216, "artifact_bytes": 1171019, "training_seconds": 706.2}
+    ],
+    "delta_bpb_large_minus_small_vocab": {
+      "split_1337": -0.3885,
+      "split_42": -1.1696,
+      "conclusion": "两组独立切分方向一致，大词表显著更优"
+    },
+    "key_finding": "大词表让 val_loss 变差(3.38->4.54)但 val_bpb 变好(2.57->2.18)，因为 tokens/byte 从 0.527 降到 0.333。这是 BPB 作为 tokenizer-agnostic 指标的机制实证。",
+    "artifact_tarball_bytes": 1158134
+  },
+
+  "leaderboard_target": {
+    "status": "pending_8xh100_compute_grant",
+    "baseline_val_bpb": 1.2244,
+    "baseline_val_loss": 2.07269931,
+    "target_val_bpb_level2": 1.18,
+    "target_val_bpb_level3": 1.12,
+    "current_sota_val_bpb": 1.0810,
+    "track": "track_10min_16mb",
+    "hardware_required": "8xH100 SXM",
+    "wallclock_seconds": 600,
+    "artifact_cap_bytes": 16000000,
+    "note": "该字段为**计划值**，未实测。官方 1.2244 复现需 8xH100 + FineWeb 数据集（本环境无网络，无法下载）。"
+  },
+
+  "runnable_artifacts": {
+    "train_script": "WangChunYan_C2G_train_gpt.py",
+    "verify_script": "WangChunYan_C2G_verify_cpu.py",
+    "pack_script": "WangChunYan_C2G_pack_artifact.py",
+    "analyze_script": "analyze_logs.py",
+    "experiment_runner": "run_experiments.sh"
+  },
+
+  "note": "顶层 val_bpb/val_loss/bytes_total 已由实测值回填（不再是模板 0.0）。口径见 metric_scope。榜单计划值单独存放于 leaderboard_target，两者绝不混用。"
+}

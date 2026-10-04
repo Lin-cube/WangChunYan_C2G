@@ -1,0 +1,33 @@
+====================================================================================================
+# C2G CPU-scale verification  tag=smoke
+corpus_root:D:\CogSeed-assignment\挑战_C2G 参数高尔夫 —— 极限约束下的语言模型训练_b8wyg0_完整资料\WangChunYan_C2G\parameter-golf
+corpus_files_total:89 train:81 val:8
+corpus_train_bytes:2822091 corpus_val_bytes:254904
+val_files:train_gpt.py,README.md,README.md,README.md,train_gpt.py,binary_log.txt,ternary_log_42.txt,README.md
+bpe_train_sample_bytes:200000 of 2822091 (sample from train split only, identical across ablation arms)
+bpe_train_seconds:6.2 bpe_merges:64
+vocab_size:320
+train_tokens:1925897 train_ratio:0.6824 tok/byte
+val_tokens:173464 val_ratio:0.6805 tok/byte
+byte_lut_check:PASS train=2822091 val=254904
+config: layers=2 dim=64 heads=4 kv_heads=2 mlp_mult=2 seq_len=64 batch_tokens=1024 steps=20 seed=1337
+model_params:78408
+tie_embeddings:True
+step:0/20 val_loss:5.7623 val_bpb:5.6571 tokens_per_byte:0.6805 val_tokens:173440 train_time:0ms step_avg:0.01ms
+step:5/20 train_loss:5.2562 lr_scale:0.500 train_time:2906ms step_avg:581.20ms
+step:10/20 train_loss:4.5455 lr_scale:1.000 train_time:3956ms step_avg:395.61ms
+step:10/20 val_loss:5.1389 val_bpb:5.0451 tokens_per_byte:0.6805 val_tokens:173440 train_time:3957ms step_avg:395.66ms
+step:15/20 train_loss:4.7059 lr_scale:1.000 train_time:6757ms step_avg:450.48ms
+step:20/20 train_loss:4.0064 lr_scale:0.333 train_time:7857ms step_avg:392.84ms
+step:20/20 val_loss:4.8279 val_bpb:4.7398 tokens_per_byte:0.6805 val_tokens:173440 train_time:7857ms step_avg:392.86ms
+training_seconds:9.7
+Serialized model (bf16 raw): 321873 bytes
+Code size: 38288 bytes
+Tokenizer size (zlib): 1611 bytes
+Serialized model int8+zlib: 147732 bytes (payload:157984 raw_torch:165089 payload_ratio:1.99x)
+Total submission size int8+zlib: 187631 bytes
+artifact_cap_bytes:16000000 within_cap:True
+final_int8_zlib_roundtrip val_loss:4.8279 val_bpb:4.7398 eval_time:1751ms
+final_int8_zlib_roundtrip_exact val_loss:4.82786535 val_bpb:4.73976518
+result_json:artifacts\smoke_result.json
+total_seconds:41.6

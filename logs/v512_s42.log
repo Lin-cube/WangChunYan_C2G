@@ -1,0 +1,37 @@
+====================================================================================================
+# C2G CPU-scale verification  tag=v512_s42
+corpus_root:D:\CogSeed-assignment\挑战_C2G 参数高尔夫 —— 极限约束下的语言模型训练_b8wyg0_完整资料\WangChunYan_C2G\parameter-golf
+corpus_files_total:89 train:81 val:8
+corpus_train_bytes:2976695 corpus_val_bytes:100300
+val_files:README.md,README.md,README.md,download_hf_docs_and_tokenize.py,README.md,README.md,train_gpt.py,README.md
+bpe_train_sample_bytes:400000 of 2976695 (sample from train split only, identical across ablation arms)
+bpe_train_seconds:62.3 bpe_merges:256
+vocab_size:512
+train_tokens:1543194 train_ratio:0.5184 tok/byte
+val_tokens:54724 val_ratio:0.5456 tok/byte
+byte_lut_check:PASS train=2976695 val=100300
+config: layers=4 dim=128 heads=4 kv_heads=2 mlp_mult=2 seq_len=128 batch_tokens=2048 steps=250 seed=42
+model_params:526608
+tie_embeddings:True
+step:0/250 val_loss:6.2369 val_bpb:4.9075 tokens_per_byte:0.5454 val_tokens:54656 train_time:0ms step_avg:0.00ms
+step:50/250 train_loss:4.4349 lr_scale:1.000 train_time:140253ms step_avg:2805.06ms
+step:50/250 val_loss:4.9892 val_bpb:3.9258 tokens_per_byte:0.5454 val_tokens:54656 train_time:140254ms step_avg:2805.07ms
+step:100/250 train_loss:4.2990 lr_scale:1.000 train_time:272118ms step_avg:2721.18ms
+step:100/250 val_loss:4.5968 val_bpb:3.6170 tokens_per_byte:0.5454 val_tokens:54656 train_time:272118ms step_avg:2721.18ms
+step:150/250 train_loss:4.6877 lr_scale:1.000 train_time:414160ms step_avg:2761.07ms
+step:150/250 val_loss:4.3068 val_bpb:3.3888 tokens_per_byte:0.5454 val_tokens:54656 train_time:414162ms step_avg:2761.08ms
+step:200/250 train_loss:4.9561 lr_scale:1.000 train_time:577965ms step_avg:2889.82ms
+step:200/250 val_loss:4.9534 val_bpb:3.8976 tokens_per_byte:0.5454 val_tokens:54656 train_time:577965ms step_avg:2889.83ms
+step:250/250 train_loss:4.3254 lr_scale:0.027 train_time:733468ms step_avg:2933.87ms
+step:250/250 val_loss:4.2866 val_bpb:3.3729 tokens_per_byte:0.5454 val_tokens:54656 train_time:733469ms step_avg:2933.88ms
+training_seconds:735.2
+Serialized model (bf16 raw): 2121781 bytes
+Code size: 39222 bytes
+Tokenizer size (zlib): 3393 bytes
+Serialized model int8+zlib: 985593 bytes (payload:1057856 raw_torch:1070949 payload_ratio:1.99x)
+Total submission size int8+zlib: 1028208 bytes
+artifact_cap_bytes:16000000 within_cap:True
+final_int8_zlib_roundtrip val_loss:4.2865 val_bpb:3.3729 eval_time:1672ms
+final_int8_zlib_roundtrip_exact val_loss:4.28654135 val_bpb:3.37287054
+result_json:artifacts\v512_s42_result.json
+total_seconds:839.8

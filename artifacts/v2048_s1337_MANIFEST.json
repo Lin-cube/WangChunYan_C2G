@@ -1,0 +1,27 @@
+{
+  "challenge": "C2G Parameter Golf",
+  "author": "WangChunYan",
+  "student_id": "2023105110151",
+  "packed_tag": "v2048_s1337",
+  "val_bpb": 2.179718104235971,
+  "val_loss": 4.535498324922127,
+  "vocab_size": 2048,
+  "model_params": 723216,
+  "hardware": "CPU (no GPU available in this environment)",
+  "note": "CPU-scale verification run on local corpus; NOT an 8xH100/FineWeb leaderboard number. Same metric definition and packing pipeline as official train_gpt.py.",
+  "artifact_cap_bytes": 16000000,
+  "member_sha256": {
+    "code/WangChunYan_C2G_verify_cpu.py": "71dc104760a8539f16ce16d1ad1de00bdaccc7e7d9d7de3af7fc1e30f6c47852",
+    "code/WangChunYan_C2G_train_gpt.py": "c6cae5e767aa0464e8767620f3bbdb08048c99f4b7ae0f0e146dd9b17e68e673",
+    "model/model.int8.ptz": "cdb0bf9421fe8878102448c70dc05474832d9a15437f0dfdd332df93cd92454c",
+    "model/tokenizer.json.zlib": "08433f6d97428378ca2961861788389540dd27a3cb42a9f9a91fd6c0fdb5666c",
+    "result.json": "7dc374a6c7c420417c171b9e4d9e502fbbd95d309fa2864ce6aedd992579ce2e"
+  },
+  "member_bytes": {
+    "code/WangChunYan_C2G_verify_cpu.py": 39222,
+    "code/WangChunYan_C2G_train_gpt.py": 47686,
+    "model/model.int8.ptz": 1110947,
+    "model/tokenizer.json.zlib": 20267,
+    "result.json": 1057
+  }
+}
